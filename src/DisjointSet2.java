@@ -1,22 +1,21 @@
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class DisjointSet2 {
 
-    Map<Connection,Node> elements=new HashMap<Connection,Node>();
+    Map<Vertex,Node> elements=new HashMap<Vertex,Node>();
 
     class Node{
 
         Long rank;
 
-        Connection data;
+        Vertex data;
 
         Node parent;
 
         Long size;
 
-        public Node(Connection data){
+        public Node(Vertex data){
             rank=0L;
             this.data=data;
             this.parent=this;
@@ -39,11 +38,11 @@ public class DisjointSet2 {
             this.rank = rank;
         }
 
-        public Connection getData() {
+        public Vertex getData() {
             return data;
         }
 
-        public void setData(Connection data) {
+        public void setData(Vertex data) {
             this.data = data;
         }
 
