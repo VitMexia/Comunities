@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 
 public class MyDisJointSet {
@@ -8,7 +6,12 @@ public class MyDisJointSet {
     public HashMap<String, Vertex> djsMap;
     public ArrayList<Vertex> idList;
     private HashSet<Vertex> communities;
-    public int cCount = -1;
+
+    int connectioCount = 0;
+    int connectioCount2 = 0;
+
+    MaxAvgPair maxAvgPair = new MaxAvgPair();
+
     public int id = 0;
 
     private int setCount = -1;
@@ -45,10 +48,16 @@ public class MyDisJointSet {
 
     private void union(Vertex vertex, Vertex vertex1) {
 
-        vertex1.userID.add(vertex.id);
+        vertex1.retweetsFrom.add(vertex);
+
+        connectioCount = 0;
 
         Vertex vroot = find(vertex);
+
+        connectioCount2 = 0;
+
         Vertex v1root = find(vertex1);
+
 
         if(vroot == v1root) return;
 
@@ -57,6 +66,28 @@ public class MyDisJointSet {
             Vertex tmp = vroot;
             vroot = v1root;
             v1root = tmp;
+
+            if(connectioCount2 >0) {
+
+                vroot.addToConnectionAvg(connectioCount2);
+
+                if (connectioCount2 > maxAvgPair.max) {
+                    maxAvgPair.max = connectioCount2;
+                    maxAvgPair.comunity = vroot;
+                }
+            }
+        }
+        else{
+
+            if(connectioCount >0) {
+                vroot.addToConnectionAvg(connectioCount);
+
+                if(connectioCount > maxAvgPair.max){
+                    maxAvgPair.max = connectioCount;
+                    maxAvgPair.comunity = vroot;
+                }
+            }
+
         }
 
         idList.set(v1root.id, vroot);
@@ -73,25 +104,32 @@ public class MyDisJointSet {
         Vertex tmp = idList.get(v.id);
 
         while(tmp != v){
-
+            connectioCount++;
             v = tmp;
             tmp = idList.get(v.id);
+
         }
 
         return v;
     }
 
+
+
+
     public int getCommunities(){
         if(setCount == -1) {
 
             for (Vertex v : idList) {
-                communities.add(v);
-            }
+                if(communities.add(v))
+                    v.connectionAvg.refreshAverage();
+             }
 
             setCount = communities.size();
         }
         return setCount;
     }
+
+
 
     public int inSameCommunity(String user1, String user2){
 
@@ -104,5 +142,8 @@ public class MyDisJointSet {
            return parent.id;
        return -1;
     }
+
+
+
 
 }

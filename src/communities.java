@@ -78,7 +78,7 @@ public class communities {
 
             }
             else if(command.startsWith("getCommunityAvgConnections")){
-
+                //djs.getConnectionAvg();
             }
             else if(command.equals("getCommunitiesCount")){
 

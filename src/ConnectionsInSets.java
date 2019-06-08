@@ -14,10 +14,10 @@ public class ConnectionsInSets {
     public void addnewCount(int i){
         connectionCount.add(i);
 
-        refreshAverage();
+//        refreshAverage();
     }
 
-    private void refreshAverage() {
+    public void refreshAverage() {
 
         Integer sum = 0;
 
@@ -28,6 +28,8 @@ public class ConnectionsInSets {
             connectionAverage = sum.doubleValue() / connectionCount.size();
         }
     }
+
+
 
     public double getConnectionAvg(){
         return connectionAverage;
